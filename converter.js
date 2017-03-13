@@ -7,8 +7,13 @@ module.exports = function converter(queryStr){
   var result = {};
 
   if(Number(queryStr)){
-    result.unix = Number(queryStr);
-    result.natural = moment(Number(queryStr)).unix();
-  } 
+    result.unix = queryStr;
+    result.natural = moment(moment.unix(Number(queryStr))).format('MMMM D, YYYY');
+  } else{
+    result.unix = moment(queryStr).isValid() ? moment(queryStr).unix() : null;
+    result.natural = moment(queryStr).isValid() ? moment(queryStr).format('MMMM D, YYYY') : null;
+  }
+
+  return result;
 
 };
